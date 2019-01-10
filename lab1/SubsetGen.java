@@ -29,5 +29,27 @@ public class SubsetGen {
       SubsetGen generator = new SubsetGen();
       ArrayList<String> subsets = generator.getSubsets("abc");
       System.out.println(subsets);
+      System.out.println(generator.getGrayCode(3));
+    }
+    public ArrayList<String> getGrayCode(int n){
+      ArrayList<String> grayCode = new ArrayList<String>();
+      ArrayList<String> temp = new ArrayList<String>();
+      if(n>1){
+        temp=getGrayCode(--n);
+        //prepend a 0
+        for(int i=0;i<temp.size();i++){
+          grayCode.add("0"+temp.get(i));
+        }
+        //prepend 1
+        for(int i=temp.size();i-- > 0;){
+          grayCode.add("1"+temp.get(i));
+        }
+        return grayCode;
+      }
+      else{
+        grayCode.add("0");
+        grayCode.add("1");
+        return grayCode;
+      }
     }
 }
