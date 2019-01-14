@@ -48,10 +48,56 @@ public class Sorts {
 	}
 
 	public static long mergeSort(int[] data) {
-		int length = data.length;
 		long numComp = 0;
-		//split array into 2
-		
+		if (data == null) {
+			return 0;
+		}
+
+		if (data.length > 1) {
+			int mid = data.length / 2;
+
+			// Split left part
+			int[] left = new int[mid];
+			for (int i = 0; i < mid; i++) {
+				left[i] = data[i];
+			}
+
+			// Split right part
+			int[] right = new int[data.length - mid];
+			for (int i = mid; i < data.length; i++) {
+				right[i - mid] = data[i];
+			}
+			mergeSort(left);
+			mergeSort(right);
+
+			int i = 0;
+			int j = 0;
+			int k = 0;
+
+			// Merge left and right datas
+			while (i < left.length && j < right.length) {
+				if (left[i] < right[j]) {
+					data[k] = left[i];
+					i++;
+				} else {
+					data[k] = right[j];
+					j++;
+				}
+				++numComp;
+				k++;
+			}
+			// Collect remaining elements
+			while (i < left.length) {
+				data[k] = left[i];
+				i++;
+				k++;
+			}
+			while (j < right.length) {
+				data[k] = right[j];
+				j++;
+				k++;
+			}
+		}
 		return numComp;
 	}
 
@@ -75,13 +121,13 @@ public class Sorts {
 		System.out.println("# of comparisons in selection sort:  " + numComp);
 		System.out.println();
 
-		/*
-		 * temp = a.clone(); System.out.println("test array to sort:  " +
-		 * Arrays.toString(a)); numComp = Sorts.mergeSort(temp);
-		 * System.out.println("Sorted by merge sort: ");
-		 * System.out.println(Arrays.toString(temp));
-		 * System.out.println("# of comparisons by mergesort is = " + numComp);
-		 * System.out.println();
-		 */
+		temp = a.clone();
+		System.out.println("test array to sort:  " + Arrays.toString(a));
+		numComp = Sorts.mergeSort(temp);
+		System.out.println("Sorted by merge sort: ");
+		System.out.println(Arrays.toString(temp));
+		System.out.println("# of comparisons by mergesort is = " + numComp);
+		System.out.println();
+
 	}
 }
