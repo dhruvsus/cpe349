@@ -49,53 +49,41 @@ public class Sorts {
 
 	public static long mergeSort(int[] data) {
 		long numComp = 0;
-		if (data == null) {
-			return 0;
-		}
-
-		if (data.length > 1) {
-			int mid = data.length / 2;
-
-			// Split left part
+		int length = data.length;
+		if (length > 1) {
+			int mid = length / 2;
+			//split array
 			int[] left = new int[mid];
-			for (int i = 0; i < mid; i++) {
-				left[i] = data[i];
-			}
-
-			// Split right part
-			int[] right = new int[data.length - mid];
-			for (int i = mid; i < data.length; i++) {
-				right[i - mid] = data[i];
-			}
+			left = Arrays.copyOfRange(data, 0, mid);
+			int[] right = new int[length - mid];
+			right = Arrays.copyOfRange(data, mid, length);
+			//recursive mergesort
 			mergeSort(left);
 			mergeSort(right);
+			int i = 0,j = 0,k = 0;
 
-			int i = 0;
-			int j = 0;
-			int k = 0;
-
-			// Merge left and right datas
+			// Merge left and right
 			while (i < left.length && j < right.length) {
 				if (left[i] < right[j]) {
 					data[k] = left[i];
-					i++;
+					++i;
 				} else {
 					data[k] = right[j];
-					j++;
+					++j;
 				}
 				++numComp;
-				k++;
+				++k;
 			}
-			// Collect remaining elements
+			// Leftovers
 			while (i < left.length) {
 				data[k] = left[i];
-				i++;
-				k++;
+				++i;
+				++k;
 			}
 			while (j < right.length) {
 				data[k] = right[j];
-				j++;
-				k++;
+				++j;
+				++k;
 			}
 		}
 		return numComp;
