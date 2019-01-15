@@ -19,12 +19,27 @@ public class CombObjects{
 			tempStr=str.replace(Character.toString(removed),"");
 			temp=getLexPerm(tempStr);
 			//generate recursive permutations
+			//by adding the removed character to the front
 			for(int j=0;j<temp.size();j++){
 				perm.add(removed+temp.get(j));
 			}
 		}
 		return perm;
 	}
+
+	public static ArrayList<String> getMinChgPerm(String str){
+		ArrayList<String> perm=new ArrayList<String>();
+		if(str.isEmpty()){
+			perm.add(str);
+			return perm;
+		}
+		//remove the last character
+		char removed=str.charAt(str.length()-1);
+		String tempStr=new String(str);
+		tempStr=str.replace(Character.toString(removed),"");
+		return perm;
+	}
+
 	public static void main(String[] args){
 		//driver program
 		ArrayList<String> perm = new ArrayList<String>();
