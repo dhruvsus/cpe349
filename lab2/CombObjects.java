@@ -29,14 +29,26 @@ public class CombObjects{
 
 	public static ArrayList<String> getMinChgPerm(String str){
 		ArrayList<String> perm=new ArrayList<String>();
+		ArrayList<String> temp=new ArrayList<String>();
 		if(str.isEmpty()){
-			perm.add(str);
 			return perm;
 		}
 		//remove the last character
 		char removed=str.charAt(str.length()-1);
 		String tempStr=new String(str);
 		tempStr=str.replace(Character.toString(removed),"");
+		//recursively generate permuatations without removed character
+		temp=getMinChgPerm(tempStr);
+		char[] tempPerm;
+		for(int i=0;i<temp.size();i++){
+		//if i is even add removed character right to left
+			if(i%2==0){
+				tempPerm=temp.get(i).toCharArray();
+				for(int j=tempPerm.length;j>=-1;j--){
+					
+}
+}
+		}
 		return perm;
 	}
 
