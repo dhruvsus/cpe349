@@ -31,23 +31,33 @@ public class CombObjects{
 		ArrayList<String> perm=new ArrayList<String>();
 		ArrayList<String> temp=new ArrayList<String>();
 		if(str.isEmpty()){
+			perm.add("");
 			return perm;
 		}
 		//remove the last character
 		char removed=str.charAt(str.length()-1);
+		//debugging, print removed character and resulting string
+		//System.out.println(removed);
 		String tempStr=new String(str);
 		tempStr=str.replace(Character.toString(removed),"");
+		//System.out.println(tempStr);
+
 		//recursively generate permuatations without removed character
 		temp=getMinChgPerm(tempStr);
-		char[] tempPerm;
 		for(int i=0;i<temp.size();i++){
-		//if i is even add removed character right to left
+			//if i is even add removed character right to left
+			StringBuilder sb = new StringBuilder(temp.get(i));
 			if(i%2==0){
-				tempPerm=temp.get(i).toCharArray();
-				for(int j=tempPerm.length;j>=-1;j--){
-					
-}
-}
+				for(int j=temp.get(i).length();j>=0;j--){
+					perm.add(temp.get(i).substring(0, j) + removed + temp.get(i).substring(j));
+				}
+			}
+			else{
+				for(int j=0;j<=temp.get(i).length();j++){
+					perm.add(temp.get(i).substring(0,j)+removed+temp.get(i).substring(j));
+				}
+			}
+			//System.out.println(perm);
 		}
 		return perm;
 	}
@@ -55,7 +65,10 @@ public class CombObjects{
 	public static void main(String[] args){
 		//driver program
 		ArrayList<String> perm = new ArrayList<String>();
-		perm=CombObjects.getLexPerm("abc");
+		perm=CombObjects.getLexPerm("abcd");
+		ArrayList<String> permMinCh= new ArrayList<String>();
+		permMinCh=CombObjects.getMinChgPerm("abcd");
 		System.out.println(perm);
+		System.out.println(permMinCh);
 	}
 }
