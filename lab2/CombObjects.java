@@ -52,6 +52,7 @@ public class CombObjects{
 					perm.add(temp.get(i).substring(0, j) + removed + temp.get(i).substring(j));
 				}
 			}
+			//if i is odd then add character left to right
 			else{
 				for(int j=0;j<=temp.get(i).length();j++){
 					perm.add(temp.get(i).substring(0,j)+removed+temp.get(i).substring(j));
@@ -61,14 +62,15 @@ public class CombObjects{
 		}
 		return perm;
 	}
-
-	public static void main(String[] args){
-		//driver program
-		ArrayList<String> perm = new ArrayList<String>();
-		perm=CombObjects.getLexPerm("abcd");
-		ArrayList<String> permMinCh= new ArrayList<String>();
-		permMinCh=CombObjects.getMinChgPerm("abcd");
-		System.out.println(perm);
-		System.out.println(permMinCh);
-	}
+	/*
+	   public static void main(String[] args){
+//driver program
+ArrayList<String> perm = new ArrayList<String>();
+perm=CombObjects.getLexPerm("abcd");
+ArrayList<String> permMinCh= new ArrayList<String>();
+permMinCh=CombObjects.getMinChgPerm("abcd");
+System.out.println(perm);
+System.out.println(permMinCh);
+}
+*/
 }
