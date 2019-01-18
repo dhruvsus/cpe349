@@ -181,6 +181,7 @@ class MyGraph  {
 		MyGraph g=new MyGraph();
 		try{
 			g.readfile_graph("Bfstest1.txt");
+			System.out.println(g.connectCheck());
 		}
 		catch (Exception e) {
 			System.out.println(e.getClass());
