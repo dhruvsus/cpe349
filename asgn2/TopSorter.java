@@ -7,14 +7,14 @@ import java.util.LinkedList;
 import java.util.Collections;
 import java.util.HashSet;
 
-class MyGraph {
+class TopSorter {
 	ArrayList<Vertex> vertices = new ArrayList<Vertex>();
 	boolean directed;
 	int nvertices;
 	int nedges;
 	int numComp;
 
-	public MyGraph() {
+	public TopSorter() {
 	}
 
 	void readfile_graph(String filename) throws FileNotFoundException {
@@ -72,7 +72,7 @@ class MyGraph {
 			System.out.printf("edge (%d,%d)\n not in valid class=%d", x.key, y.key, c);
 	}
 
-	static void initialize_search(MyGraph g) {
+	static void initialize_search(TopSorter g) {
 		for (Vertex v : g.vertices) {
 			v.processed = v.discovered = false;
 			v.parent = null;
@@ -156,87 +156,14 @@ class MyGraph {
 		return null;
 	}
 
-	// BFS driven check for connected components
-	public ArrayList<HashSet<Integer>> connectCheck() {
-		// ArrayList containing all the HashSets
-		ArrayList<HashSet<Integer>> graphConnect = new ArrayList<HashSet<Integer>>();
-		// go through all unvisited vertices
-		for (int i = 0; i < nvertices; i++) {
-			if (vertices.get(i).discovered == false) {
-				// new connected component
-				// hashset for each connected component
-				HashSet<Integer> compVert = new HashSet<Integer>();
-				numComp++;
-				// add vertex of new connected component to end of the queue
-				LinkedList<Vertex> queue = new LinkedList<Vertex>();
-				queue.add(vertices.get(i));
-				// set v to be discovered but not processed
-				vertices.get(i).discovered = true;
-				// process the vertices in the queue by popping them off the front
-				// and process them and add their neighbours if not discovered
-				// to the back of the queue
-				while (queue.size() != 0) {
-					// experiment with declaration of v
-					Vertex v = queue.poll();
-					v.processed = true;
-					compVert.add(v.key);
-					// add neighbours and set them to discovered but not processed
-					for (Vertex w : v.edges) {
-						if (w.discovered == false) {
-							w.discovered = true;
-							queue.add(w);
-						}
-					}
-				}
-				// add the connected component's hashset to arraylist end
-				graphConnect.add(compVert);
-			}
+	//Topological sort via source removal
+	public ArrayList<Integer> topSortGenerator(String filename){
+		ArrayList<Integer> sorted = new ArrayList<Integer>();
+		//find vertices with degree 0
+		for(int i=0;i<nvertices;i++){
+			System.out.println("degree of vertex "+vertices.get(i).key+" is "+vertices.get(i).degree);
 		}
-		// finally add hashset with the number of components
-		HashSet<Integer> numComponents = new HashSet<Integer>();
-		numComponents.add(numComp);
-		graphConnect.add(0, numComponents);
-		return graphConnect;
+		return sorted;
 	}
 
-	// BFS driven bipartite check
-	public boolean bipartiteCheck() {
-		// Go through each connected component
-		for (int i = 0; i < nvertices; i++) {
-			// maintain color state for each connected component
-			// default value 0
-			int color = 0;
-			if (vertices.get(i).discovered == false) {
-				// new connected component
-				// add vertex of new connected component to end of the queue
-				LinkedList<Vertex> queue = new LinkedList<Vertex>();
-				queue.add(vertices.get(i));
-				// set v to be discovered but not processed
-				vertices.get(i).discovered = true;
-				// process the vertices in the queue by popping them off the front
-				// and color them and add their neighbours if not discovered
-				// to the back of the queue
-				while (queue.size() != 0) {
-					// experiment with declaration of v
-					Vertex v = queue.poll();
-					v.processed = true;
-					v.color = color;
-					color = 1 - color;
-					// add neighbours and set them to discovered but not processed
-					for (Vertex w : v.edges) {
-						//System.out.println("w color"+w.color);
-						//System.out.println("v color"+v.color);
-						if (w.color == v.color) {
-							return false;
-						}
-						if (w.discovered == false) {
-							w.discovered = true;
-							queue.add(w);
-						}
-					}
-				}
-			}
-		}
-		return true;
-	}
 }
