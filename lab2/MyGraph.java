@@ -156,8 +156,8 @@ class MyGraph {
 		return null;
 	}
 
-	// BFS over all the vertices
-	public void connectCheck() {
+	// BFS driven check for connected components
+	public ArrayList<HashSet<Integer>> connectCheck() {
 		// ArrayList containing all the HashSets
 		ArrayList<HashSet<Integer>> graphConnect = new ArrayList<HashSet<Integer>>();
 		// go through all unvisited vertices
@@ -167,9 +167,8 @@ class MyGraph {
 				// hashset for each connected component
 				HashSet<Integer> compVert = new HashSet<Integer>();
 				numComp++;
-				// vertex of new connected component to queue
+				// add vertex of new connected component to end of the queue
 				LinkedList<Vertex> queue = new LinkedList<Vertex>();
-				// add to end of the queue
 				queue.add(vertices.get(i));
 				// set v to be discovered but not processed
 				vertices.get(i).discovered = true;
@@ -194,18 +193,50 @@ class MyGraph {
 			}
 		}
 		// finally add hashset with the number of components
-		graphConnect.add(0, new HashSet<Integer>(numComp));
-		System.out.println(graphConnect);
+		HashSet<Integer> numComponents = new HashSet<Integer>();
+		numComponents.add(numComp);
+		graphConnect.add(0, numComponents);
+		return graphConnect;
 	}
 
-	public static void main(String[] args) {
-		MyGraph g = new MyGraph();
-		try {
-			g.readfile_graph("mytest2.txt");
-			g.connectCheck();
-		} catch (Exception e) {
-			System.out.println(e.getClass());
+	// BFS driven bipartite check
+	public boolean bipartiteCheck() {
+		// Go through each connected component
+		for (int i = 0; i < nvertices; i++) {
+			// maintain color state for each connected component
+			// default value 0
+			int color = 0;
+			if (vertices.get(i).discovered == false) {
+				// new connected component
+				// add vertex of new connected component to end of the queue
+				LinkedList<Vertex> queue = new LinkedList<Vertex>();
+				queue.add(vertices.get(i));
+				// set v to be discovered but not processed
+				vertices.get(i).discovered = true;
+				// process the vertices in the queue by popping them off the front
+				// and color them and add their neighbours if not discovered
+				// to the back of the queue
+				while (queue.size() != 0) {
+					// experiment with declaration of v
+					Vertex v = queue.poll();
+					v.processed = true;
+					v.color = color;
+					color = 1 - color;
+					// add neighbours and set them to discovered but not processed
+					for (Vertex w : v.edges) {
+						//System.out.println("w color"+w.color);
+						//System.out.println("v color"+v.color);
+						if (w.color == v.color) {
+							return false;
+						}
+						if (w.discovered == false) {
+							w.discovered = true;
+							queue.add(w);
+						}
+					}
+				}
+			}
 		}
-
+		return true;
 	}
 }
