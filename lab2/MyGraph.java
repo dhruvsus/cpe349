@@ -152,21 +152,24 @@ class MyGraph  {
 			//hashset to store vertices of a connected component
 			HashSet<Integer> containedComp=new HashSet<Integer>();
 			Vertex v=vertices.get(i);
+			//debugging, print the initial key
 			if(v.discovered==false){
 				numComp++;
+				System.out.println("numcomp"+numComp);
 				LinkedList<Vertex> component=new LinkedList<Vertex>();
-				component.add(v);
+				component.add(0,v);
 				containedComp.add(v.key);
 				//set visited to true and add to queue
 				v.discovered=true;
 				//start exploring
-				while(component.isEmpty()!=false){
+
+				while(component.size()>0){
 					v = component.remove(0);
 					for(Vertex w:v.edges){
 						if(w.discovered==false){
 							w.discovered=true;
-							component.add(w);
-							containedComp.add(w.key);
+							component.add(0,w);
+							//containedComp.add(w.key);
 						}
 					}
 				}
