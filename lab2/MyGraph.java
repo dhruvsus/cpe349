@@ -5,6 +5,8 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Collections;
+import java.util.HashSet;
+
 
 class MyGraph  {	
 	ArrayList<Vertex> vertices = new ArrayList<Vertex>();
@@ -143,6 +145,38 @@ class MyGraph  {
 		return null;	
 	}
 
+	//BFS over all the vertices
+	public ArrayList<HashSet<Integer>> connectCheck(){
+		ArrayList<HashSet<Integer>> descSets=new ArrayList<HashSet<Integer>>();
+		for(int i=0;i<nvertices;i++){
+			//hashset to store vertices of a connected component
+			HashSet<Integer> containedComp=new HashSet<Integer>();
+			Vertex v=vertices.get(i);
+			if(v.discovered==false){
+				numComp++;
+				LinkedList<Vertex> component=new LinkedList<Vertex>();
+				component.add(v);
+				containedComp.add(v.key);
+				//set visited to true and add to queue
+				v.discovered=true;
+				//start exploring
+				while(component.isEmpty()!=false){
+					v = component.remove(0);
+					for(Vertex w:v.edges){
+						if(w.discovered==false){
+							w.discovered=true;
+							component.add(w);
+							containedComp.add(w.key);
+						}
+					}
+				}
+			}
+			descSets.add(containedComp);
+		}
+		HashSet<Integer> nComp=new HashSet<Integer>(numComp);
+		descSets.add(0,nComp);
+		return descSets;
+	}
 	public static void main(String[] args){
 		MyGraph g=new MyGraph();
 		try{
