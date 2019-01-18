@@ -183,7 +183,7 @@ class MyGraph  {
 	public static void main(String[] args){
 		MyGraph g=new MyGraph();
 		try{
-			g.readfile_graph("Bfstest1.txt");
+			g.readfile_graph("mytest2.txt");
 			System.out.println(g.connectCheck());
 		}
 		catch (Exception e) {
