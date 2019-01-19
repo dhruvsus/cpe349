@@ -1,0 +1,7 @@
+algorithm:
+    1.find the first vertex with degree 0 called A
+    2.add the A to the front of a queue
+    while queue is not empty
+    3.poll from queue into sorted and set processed to true and remove the edges orignating from A;
+    4.when removing edges, update the degrees of the vertices it is connected to.
+    5.if any of the vertices's degrees becomes 0, add it to the front of the queue. 

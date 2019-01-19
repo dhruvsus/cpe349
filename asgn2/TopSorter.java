@@ -158,10 +158,29 @@ class TopSorter {
 
 	//Topological sort via source removal
 	public ArrayList<Integer> topSortGenerator(String filename){
+		//debugging print
+		print_graph();
 		ArrayList<Integer> sorted = new ArrayList<Integer>();
-		//find vertices with degree 0
-		for(int i=0;i<nvertices;i++){
-			System.out.println("degree of vertex "+vertices.get(i).key+" is "+vertices.get(i).degree);
+		//queue for vertices with degree 0
+		LinkedList<Vertex> queue = new LinkedList<Vertex>();
+		//enqueue vertices with degree 0
+		for(Vertex v:vertices){
+			if(v.degree==0){
+				//insertion to index 0 for lifo
+				queue.add(0,v);
+			}
+		}
+		//poll and remove edges
+		while(queue.size()!=0){
+			Vertex v=queue.poll();
+			sorted.add(v.key);
+			for(Vertex w:v.edges){
+				remove_edge(v, w);
+				//enqueue neighbour if it's degree becomes 0
+				if(w.degree==0){
+					queue.add(0,w);
+				}
+			}
 		}
 		return sorted;
 	}
