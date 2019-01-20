@@ -165,8 +165,9 @@ class TopSorter {
 				System.out.println(e.getMessage());
 		}
 		// build adjacency matrix
-		ArrayList<Integer> adjList[];
-		adjList = new ArrayList[nvertices];
+		
+		@SuppressWarnings("unchecked")
+		ArrayList<Integer> adjList[] = new ArrayList[nvertices];
 		for (int i = 0; i < nvertices; i++) {
 			adjList[i] = new ArrayList<>();
 		}
