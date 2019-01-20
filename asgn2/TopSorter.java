@@ -159,8 +159,8 @@ class TopSorter {
 	// Topological sort via source removal
 	public ArrayList<Integer> topSortGenerator(String filename) {
 		try {
-			readfile_graph("topSortTest1.txt");
-			//System.out.println(sort.topSortGenerator("topSortTest1"));
+			readfile_graph(filename);
+			// System.out.println(sort.topSortGenerator("topSortTest1"));
 		} catch (Exception e) {
 			System.out.println(e.getClass());
 		}
@@ -172,39 +172,49 @@ class TopSorter {
 		}
 		// for each vertex v, add v's key to the adjacency list of it's edges:w
 		for (Vertex v : vertices) {
-			for(Vertex w:v.edges){
-				//w.key-1 since array indexing starts at 0 but our vertices are keyed naturally
-				adjList[w.key-1].add(v.key);
+			for (Vertex w : v.edges) {
+				// w.key-1 since array indexing starts at 0 but our vertices are keyed naturally
+				adjList[w.key - 1].add(v.key);
 			}
 		}
-		//debug: print adjList
-		for(int i=0;i<adjList.length;i++){
+		// debug: print adjList
+		for (int i = 0; i < adjList.length; i++) {
 			System.out.println(adjList[i]);
 		}
 
-		ArrayList<Integer> sorted = new ArrayList<Integer>();
+		ArrayList<Integer> topSorted = new ArrayList<Integer>();
 		// queue for vertices with degree 0
-		LinkedList<Vertex> queue = new LinkedList<Vertex>();
+		LinkedList<Integer> queue = new LinkedList<Integer>();
 		// enqueue vertices with degree 0
-		for (Vertex v : vertices) {
-			if (v.degree == 0) {
-				// insertion to index 0 for lifo
-				queue.add(0, v);
+		for (int i = 0; i < nvertices; i++) {
+			if (adjList[i].size() == 0) {
+				// add i+1 to convert index to vertex key
+				queue.add(i + 1);
 			}
 		}
-		// poll and remove edges
+		// debug: print queue
+		for (int i = 0; i < queue.size(); i++) {
+			System.out.println(queue.get(i));
+		}
+
 		while (queue.size() != 0) {
-			Vertex v = queue.poll();
-			sorted.add(v.key);
-			for (Vertex w : v.edges) {
-				remove_edge(v, w);
-				// enqueue neighbour if it's degree becomes 0
-				if (w.degree == 0) {
-					queue.add(0, w);
+			int vKey = queue.poll();
+			// insert vertKey into topSorted
+			topSorted.add(vKey);
+			// remove vertKey from adjacency list of each neighbour
+			// find keys of vertices that have edgex vertKey---->wKey
+			// .get(vKey-1) to convert key to index
+			for (Vertex w : vertices.get(vKey - 1).edges) {
+				// for each of these, remove vKey from it's adjacency list
+				// w.key-1 index for adjacency list
+				adjList[w.key - 1].remove((Integer)vKey);
+				// if new length of adjList[w.key-1] is 0, enqueue it
+				if (adjList[w.key - 1].size() == 0) {
+					queue.add(w.key);
 				}
 			}
 		}
-		return sorted;
+		return topSorted;
 	}
 
 }
