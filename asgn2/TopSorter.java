@@ -33,10 +33,10 @@ class TopSorter {
 		nedges = sc.nextInt(); // m is the number of edges in the file
 		int nedgesFile = nedges;
 		for (int i = 1; i <= nedgesFile; i++) {
-			System.out.println(i + " compare " + (i <= nedges) + " nedges " + nedges);
+
 			x = sc.nextInt();
 			y = sc.nextInt();
-			System.out.println("x  " + x + "  y:  " + y + " i " + i);
+
 			insert_edge(x, y, directed);
 		}
 		sc.close();
@@ -108,17 +108,17 @@ class TopSorter {
 
 	void remove_edge(Vertex x, Vertex y) {
 		if (x.degree < 0)
-			System.out.println("Warning: no edge --" + x + ", " + y);
-		x.edges.remove(y);
+
+			x.edges.remove(y);
 		x.degree--;
 	}
 
 	void print_graph() {
 		for (Vertex v : vertices) {
-			System.out.println("vertex: " + v.key);
+
 			for (Vertex w : v.edges)
 				System.out.print("  adjacency list: " + w.key);
-			System.out.println();
+
 		}
 	}
 
@@ -160,9 +160,9 @@ class TopSorter {
 	public ArrayList<Integer> topSortGenerator(String filename) {
 		try {
 			readfile_graph(filename);
-			// System.out.println(sort.topSortGenerator("topSortTest1"));
+			//
 		} catch (Exception e) {
-			System.out.println(e.getClass());
+				System.out.println(e.getMessage());
 		}
 		// build adjacency matrix
 		ArrayList<Integer> adjList[];
@@ -177,11 +177,6 @@ class TopSorter {
 				adjList[w.key - 1].add(v.key);
 			}
 		}
-		// debug: print adjList
-		for (int i = 0; i < adjList.length; i++) {
-			System.out.println(adjList[i]);
-		}
-
 		ArrayList<Integer> topSorted = new ArrayList<Integer>();
 		// queue for vertices with degree 0
 		LinkedList<Integer> queue = new LinkedList<Integer>();
@@ -192,27 +187,32 @@ class TopSorter {
 				queue.add(i + 1);
 			}
 		}
-		// debug: print queue
-		for (int i = 0; i < queue.size(); i++) {
-			System.out.println(queue.get(i));
-		}
 
 		while (queue.size() != 0) {
 			int vKey = queue.poll();
 			// insert vertKey into topSorted
 			topSorted.add(vKey);
+
 			// remove vertKey from adjacency list of each neighbour
 			// find keys of vertices that have edgex vertKey---->wKey
 			// .get(vKey-1) to convert key to index
 			for (Vertex w : vertices.get(vKey - 1).edges) {
 				// for each of these, remove vKey from it's adjacency list
 				// w.key-1 index for adjacency list
-				adjList[w.key - 1].remove((Integer)vKey);
+				adjList[w.key - 1].remove((Integer) vKey);
 				// if new length of adjList[w.key-1] is 0, enqueue it
 				if (adjList[w.key - 1].size() == 0) {
 					queue.add(w.key);
+
 				}
 			}
+		}
+
+		// add a -1 to the arraylist for the elements that
+		// couldn't be sorted = nvertices-topSorted.size
+		int numNeg = nvertices - topSorted.size();
+		for (int i = 0; i < numNeg; i++) {
+			topSorted.add(-1);
 		}
 		return topSorted;
 	}
