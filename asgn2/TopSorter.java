@@ -156,29 +156,51 @@ class TopSorter {
 		return null;
 	}
 
-	//Topological sort via source removal
-	public ArrayList<Integer> topSortGenerator(String filename){
-		//debugging print
-		print_graph();
-		ArrayList<Integer> sorted = new ArrayList<Integer>();
-		//queue for vertices with degree 0
-		LinkedList<Vertex> queue = new LinkedList<Vertex>();
-		//enqueue vertices with degree 0
-		for(Vertex v:vertices){
-			if(v.degree==0){
-				//insertion to index 0 for lifo
-				queue.add(0,v);
+	// Topological sort via source removal
+	public ArrayList<Integer> topSortGenerator(String filename) {
+		try {
+			readfile_graph("topSortTest1.txt");
+			//System.out.println(sort.topSortGenerator("topSortTest1"));
+		} catch (Exception e) {
+			System.out.println(e.getClass());
+		}
+		// build adjacency matrix
+		ArrayList<Integer> adjList[];
+		adjList = new ArrayList[nvertices];
+		for (int i = 0; i < nvertices; i++) {
+			adjList[i] = new ArrayList<>();
+		}
+		// for each vertex v, add v's key to the adjacency list of it's edges:w
+		for (Vertex v : vertices) {
+			for(Vertex w:v.edges){
+				//w.key-1 since array indexing starts at 0 but our vertices are keyed naturally
+				adjList[w.key-1].add(v.key);
 			}
 		}
-		//poll and remove edges
-		while(queue.size()!=0){
-			Vertex v=queue.poll();
+		//debug: print adjList
+		for(int i=0;i<adjList.length;i++){
+			System.out.println(adjList[i]);
+		}
+
+		ArrayList<Integer> sorted = new ArrayList<Integer>();
+		// queue for vertices with degree 0
+		LinkedList<Vertex> queue = new LinkedList<Vertex>();
+		// enqueue vertices with degree 0
+		for (Vertex v : vertices) {
+			if (v.degree == 0) {
+				// insertion to index 0 for lifo
+				queue.add(0, v);
+			}
+		}
+		// poll and remove edges
+		while (queue.size() != 0) {
+			Vertex v = queue.poll();
 			sorted.add(v.key);
-			for(Vertex w:v.edges){
+			for (Vertex w : v.edges) {
 				remove_edge(v, w);
-				//enqueue neighbour if it's degree becomes 0
-				if(w.degree==0){
-					queue.add(0,w);
+				// enqueue neighbour if it's degree becomes 0
+				if (w.degree == 0) {
+					queue.add(0, w);
 				}
 			}
 		}
