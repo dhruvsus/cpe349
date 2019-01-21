@@ -156,7 +156,7 @@ class TopSorter {
 	}
 
 	// Topological sort via source removal
-	static ArrayList<Integer> topSortGenerator(String filename) {
+	public static ArrayList<Integer> topSortGenerator(String filename) {
 		TopSorter sorter=new TopSorter();
 		try {
 			sorter.readfile_graph(filename);
