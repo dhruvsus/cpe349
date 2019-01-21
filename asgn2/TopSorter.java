@@ -5,7 +5,6 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Collections;
-import java.util.HashSet;
 
 class TopSorter {
 	ArrayList<Vertex> vertices = new ArrayList<Vertex>();
@@ -157,9 +156,10 @@ class TopSorter {
 	}
 
 	// Topological sort via source removal
-	public ArrayList<Integer> topSortGenerator(String filename) {
+	static ArrayList<Integer> topSortGenerator(String filename) {
+		TopSorter sorter=new TopSorter();
 		try {
-			readfile_graph(filename);
+			sorter.readfile_graph(filename);
 			//
 		} catch (Exception e) {
 				System.out.println(e.getMessage());
@@ -167,12 +167,12 @@ class TopSorter {
 		// build adjacency matrix
 		
 		@SuppressWarnings("unchecked")
-		ArrayList<Integer> adjList[] = new ArrayList[nvertices];
-		for (int i = 0; i < nvertices; i++) {
+		ArrayList<Integer> adjList[] = new ArrayList[sorter.nvertices];
+		for (int i = 0; i < sorter.nvertices; i++) {
 			adjList[i] = new ArrayList<>();
 		}
 		// for each vertex v, add v's key to the adjacency list of it's edges:w
-		for (Vertex v : vertices) {
+		for (Vertex v : sorter.vertices) {
 			for (Vertex w : v.edges) {
 				// w.key-1 since array indexing starts at 0 but our vertices are keyed naturally
 				adjList[w.key - 1].add(v.key);
@@ -182,7 +182,7 @@ class TopSorter {
 		// queue for vertices with degree 0
 		LinkedList<Integer> queue = new LinkedList<Integer>();
 		// enqueue vertices with degree 0
-		for (int i = 0; i < nvertices; i++) {
+		for (int i = 0; i < sorter.nvertices; i++) {
 			if (adjList[i].size() == 0) {
 				// add i+1 to convert index to vertex key
 				queue.add(i + 1);
@@ -197,7 +197,7 @@ class TopSorter {
 			// remove vertKey from adjacency list of each neighbour
 			// find keys of vertices that have edgex vertKey---->wKey
 			// .get(vKey-1) to convert key to index
-			for (Vertex w : vertices.get(vKey - 1).edges) {
+			for (Vertex w : sorter.vertices.get(vKey - 1).edges) {
 				// for each of these, remove vKey from it's adjacency list
 				// w.key-1 index for adjacency list
 				adjList[w.key - 1].remove((Integer) vKey);
@@ -211,7 +211,7 @@ class TopSorter {
 
 		// add a -1 to the arraylist for the elements that
 		// couldn't be sorted = nvertices-topSorted.size
-		int numNeg = nvertices - topSorted.size();
+		int numNeg = sorter.nvertices - topSorted.size();
 		for (int i = 0; i < numNeg; i++) {
 			topSorted.add(-1);
 		}
