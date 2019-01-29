@@ -82,8 +82,8 @@ public class Inversions {
 		return inv_count;
 	}
 
-	/* public static void main(String[] args) {
-		int[] data = new int[] { 2, 3, 8, 6, 1 };
+	public static void main(String[] args) {
+		int[] data = new int[] {10,9,8,7,6,5,4,3,2,1 };
 		System.out.println(invCounter(data));
-	} */
+	}
 }
