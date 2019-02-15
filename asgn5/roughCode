@@ -1,0 +1,5 @@
+public class Job{
+            private int stime;
+            private int ftime;
+            private int weight;
+        }
