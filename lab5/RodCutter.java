@@ -66,29 +66,16 @@ public class RodCutter {
 			// traceback
 			cuts = traceBack(table, prices);
 			// Output
-			System.out.printf("Case %d:\n",i+1);
+			System.out.printf("Case %d:\n", i + 1);
 			for (int k = 1; k < table.length; k++) {
 				System.out.printf("total for length %d     = %d\n", k, table[k]);
 			}
 			System.out.printf("Optimal rod cutting\n");
 			for (int k = 1; k < cuts.length; k++) {
-				if(cuts[k]>0){
-					System.out.printf("Number of rods of length %d      = %d\n",k,cuts[k]);
+				if (cuts[k] > 0) {
+					System.out.printf("Number of rods of length %d      = %d\n", k, cuts[k]);
 				}
 			}
 		}
-
-		/*
-		 * int arr[] = new int[] { 2, 4, 4, 5, 12, 13, 14, 15, 40, 41 }; int arr1[] =
-		 * new int[] { 1, 4, 6, 25, 28, 31, 80, 81, 82, 83, 84, 85, 86, 88, 90, 92 };
-		 * table = rodCutting(arr1, size);
-		 * 
-		 * for (int k = 1; k < table.length; k++) {
-		 * System.out.println("total for length " + k + " = " + table[k]); } table =
-		 * traceBack(table, arr1);
-		 * 
-		 * for (int k = 1; k < table.length; k++) {
-		 * System.out.println("number of cuts of size " + k + " = " + table[k]); }
-		 */
 	}
 }
