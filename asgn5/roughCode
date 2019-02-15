@@ -3,3 +3,7 @@ public class Job{
             private int ftime;
             private int weight;
         }
+        // find max ftime
+        int fMax = Arrays.stream(ftime).max().getAsInt();
+        // table of solutions
+        // dimensions = #jobs+1 x max_finish_time+1(since we can assume that the 0th job
