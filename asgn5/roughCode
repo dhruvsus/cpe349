@@ -15,3 +15,20 @@ ValWIS(n,t)= max(ValWIS(n-1,t), Wn+ValWIS(n-1, s[n]))
 // therefore the ValWIS recursive call, will have it's jobs decremented, and the time, set to the latest finishing job that can be picked up.
 // furthermore, you're going to have to check if you can even pick up the job when you're builing your table, which might be a 2d grid
 // also, sort ftime, stime, and weights according to ftime to make things easier.
+
+// build table
+        // i indicates job number
+        // j indicates time
+        for(int i=1;i<size;i++){
+            for(int j=1;j<size;j++){
+                //check if job can be picked up
+                if(stime[i]>=ftime[i-1]){
+                    //can be picked up
+                    // NOTE: potential screw up of what table[][j-1] is
+                    table[i][j]=Math.max(table[i-1][j],table[i-1][j-1]+weight[i]);
+                }
+                else{
+                    table[i][j]=table[i-1][j];
+                }
+            }
+        }
