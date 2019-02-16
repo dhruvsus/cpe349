@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WgtIntScheduler {
-	public static ArrayList<Integer> getOptSet(int[] stime, int[] ftime, int[] weight) {
+	public static int[] getOptSet(int[] stime, int[] ftime, int[] weight) {
 		int size = ftime.length + 1;
 		ArrayList<Integer> jobs = new ArrayList<Integer>();
+		int[] jobsArray;
 		int[] conversionArray = new int[size];
 		for (int i = 0; i < size; i++) {
 			conversionArray[i] = i;
@@ -19,10 +20,10 @@ public class WgtIntScheduler {
 			for (int j = i; j < ftime.length; j++) {
 				if (ftime[j] < ftime[i]) {
 					// swap positions of stime, ftime, and job weights
-					int temp;	
-					temp=conversionArray[j];
-					conversionArray[j]=conversionArray[i];
-					conversionArray[i]=temp;
+					int temp;
+					temp = conversionArray[j + 1];
+					conversionArray[j + 1] = conversionArray[i + 1];
+					conversionArray[i + 1] = temp;
 					temp = ftime[j];
 					ftime[j] = ftime[i];
 					ftime[i] = temp;
@@ -51,16 +52,12 @@ public class WgtIntScheduler {
 			table[i] = Math.max(weight[i - 1] + table[compatible], table[i - 1]);
 		}
 
-		for (int i = 0; i < stime.length; i++) {
-			System.out.printf("job %d starts at %d and ends at %d with weight %d\n", i+1, stime[i], ftime[i], weight[i]);
-		}
-
 		// traceback
 		for (int i = table.length - 1; i > 0; i--) {
 			// if table[i] is less than table[i-1], job selected
 			// set new i
 			if (table[i] > table[i - 1]) {
-				jobs.add(i);
+				jobs.add(conversionArray[i]);
 				// set i to latest compatible job
 				int compatible = i;
 				while (compatible > 0) {
@@ -75,20 +72,10 @@ public class WgtIntScheduler {
 			}
 		}
 		jobs.sort(null);
-		for (Integer job : jobs) {
-			System.out.printf("job %d\n", job);
+		jobsArray = new int[jobs.size()];
+		for (int i = 0; i < jobsArray.length; i++) {
+			jobsArray[i] = jobs.get(i);
 		}
-		return jobs;
-	}
-
-	public static void main(String[] args) {
-		int[] stime = { 4, 3, 2, 10, 7 };
-		int[] ftime = { 7, 10, 6, 13, 9 };
-		int[] weights = { 6, 6, 5, 2, 8 };
-		int[] stime1={3,3,1,10,8};
-		int[] ftime1={7,10,4,13,11};
-		int[] weights1={6,9,5,8,10};
-		ArrayList<Integer> jobs = new ArrayList<Integer>();
-		jobs = getOptSet(stime1, ftime1, weights1);
+		return jobsArray;
 	}
 }
