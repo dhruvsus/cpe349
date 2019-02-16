@@ -7,6 +7,10 @@ public class WgtIntScheduler {
 	public static ArrayList<Integer> getOptSet(int[] stime, int[] ftime, int[] weight) {
 		int size = ftime.length + 1;
 		ArrayList<Integer> jobs = new ArrayList<Integer>();
+		int[] conversionArray = new int[size];
+		for (int i = 0; i < size; i++) {
+			conversionArray[i] = i;
+		}
 		// table of solutions
 		int[] table = new int[size];
 		// stime, ftime, and weights may not be sorted.
@@ -15,7 +19,11 @@ public class WgtIntScheduler {
 			for (int j = i; j < ftime.length; j++) {
 				if (ftime[j] < ftime[i]) {
 					// swap positions of stime, ftime, and job weights
-					int temp = ftime[j];
+					int temp;	
+					temp=conversionArray[j];
+					conversionArray[j]=conversionArray[i];
+					conversionArray[i]=temp;
+					temp = ftime[j];
 					ftime[j] = ftime[i];
 					ftime[i] = temp;
 					temp = stime[j];
@@ -42,9 +50,9 @@ public class WgtIntScheduler {
 			// compatible is the latest job compatible with job i. may be 0
 			table[i] = Math.max(weight[i - 1] + table[compatible], table[i - 1]);
 		}
-		
+
 		for (int i = 0; i < stime.length; i++) {
-			System.out.printf("job %d starts at %d and ends at %d with weight %d\n", i, stime[i], ftime[i], weight[i]);
+			System.out.printf("job %d starts at %d and ends at %d with weight %d\n", i+1, stime[i], ftime[i], weight[i]);
 		}
 
 		// traceback
@@ -62,9 +70,11 @@ public class WgtIntScheduler {
 						compatible--;
 					}
 				}
+				// set i to compatible +1 to deal with the i--
 				i = compatible + 1;
 			}
 		}
+		jobs.sort(null);
 		for (Integer job : jobs) {
 			System.out.printf("job %d\n", job);
 		}
@@ -75,7 +85,10 @@ public class WgtIntScheduler {
 		int[] stime = { 4, 3, 2, 10, 7 };
 		int[] ftime = { 7, 10, 6, 13, 9 };
 		int[] weights = { 6, 6, 5, 2, 8 };
+		int[] stime1={3,3,1,10,8};
+		int[] ftime1={7,10,4,13,11};
+		int[] weights1={6,9,5,8,10};
 		ArrayList<Integer> jobs = new ArrayList<Integer>();
-		jobs = getOptSet(stime, ftime, weights);
+		jobs = getOptSet(stime1, ftime1, weights1);
 	}
 }
