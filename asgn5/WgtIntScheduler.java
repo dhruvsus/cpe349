@@ -14,9 +14,26 @@ public class WgtIntScheduler {
 		int[][] table = new int[size][size];
 		// stime, ftime, and weights may not be sorted.
 		// sort stime, ftime, and weights according to ftime
-		for (Integer i : stime) {
-			System.out.printf("%d\n", i);
-		}
+		for (int i=0;i<ftime.length;i++) {
+			for(int j=i;j<ftime.length;j++){
+                if(ftime[j]<ftime[i]){
+                    // swap positions of stime, ftime, and job weights
+                    int temp=ftime[j];
+                    ftime[j]=ftime[i];
+                    ftime[i]=temp;
+                    temp=stime[j];
+                    stime[j]=stime[i];
+                    stime[i]=temp;
+                    temp=weight[j];
+                    weight[j]=weight[i];
+                    weight[i]=temp;
+                }
+            }
+        }
+        // print for testing if sort worked
+        for(int i=0;i<stime.length;i++){
+            System.out.printf("job %d starts at %d and ends at %d with weight %d\n",i, stime[i], ftime[i], weight[i]);
+        }
 		return jobs;
 	}
 

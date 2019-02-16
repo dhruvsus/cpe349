@@ -7,3 +7,11 @@ public class Job{
         int fMax = Arrays.stream(ftime).max().getAsInt();
         // table of solutions
         // dimensions = #jobs+1 x max_finish_time+1(since we can assume that the 0th job
+
+ValWIS(...)= # maximum weights accuable
+ValWIS(n,t)= max(ValWIS(n-1,t), Wn+ValWIS(n-1, s[n]))
+// t is the time right now which is > = finish time of the n-1th job that you took
+// also, if you do take job n, you can't take the n-1th job if it's finish time is after your start time for the nth job.
+// therefore the ValWIS recursive call, will have it's jobs decremented, and the time, set to the latest finishing job that can be picked up.
+// furthermore, you're going to have to check if you can even pick up the job when you're builing your table, which might be a 2d grid
+// also, sort ftime, stime, and weights according to ftime to make things easier.
