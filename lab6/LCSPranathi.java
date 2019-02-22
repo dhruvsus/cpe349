@@ -57,10 +57,17 @@ public class LCSPranathi {
 		return strValofCharArray;
 	}
 	
-	public static void main(String args[]) {
-		// two sequences
-		String str1 = "thisisatest";
-		String str2 = "testing123testing"; 
-		System.out.println(getLCS(str1, str2));
-	}
+	public static void main(String[] args){
+		//driver program
+		String x="AGCAGT";
+		String y="GACA";
+		//String y = "thisisatest";
+		//String x = "testing123testing";
+		//String y = "ABCDGH";
+		//String x = "AEDFHR";
+		//String y = "AGGTAB";
+		//String x = "GXTXAYB";
+		String z=getLCS(x,y);
+		System.out.printf("LCS is %s of length %d\n",z,z.length());
+ 	}
 }

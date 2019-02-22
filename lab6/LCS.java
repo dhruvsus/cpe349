@@ -53,11 +53,11 @@ public class LCS{
 		}
 		return LCS;
 	}
-
-	/* public static void main(String[] args){
+/* 
+	public static void main(String[] args){
 		//driver program
-		String x="AGCAGT";
-		String y="GACA";
+		//String x="AGCAGT";
+		//String y="GACA";
 		//String y = "thisisatest";
 		//String x = "testing123testing";
 		//String y = "ABCDGH";
@@ -65,7 +65,7 @@ public class LCS{
 		//String y = "AGGTAB";
 		//String x = "GXTXAYB";
 		String z=getLCS(x,y);
-		System.out.println(z);
+		System.out.printf("LCS is %s of length %d\n",z,z.length());
  	}
-*/
+ */
 }
