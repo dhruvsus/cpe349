@@ -1,4 +1,4 @@
-public class LCS {
+public class LCSPranathi {
 	
 	public static String getLCS (String str1, String str2) {		
 		int len1 = str1.length();
@@ -61,6 +61,6 @@ public class LCS {
 		// two sequences
 		String str1 = "thisisatest";
 		String str2 = "testing123testing"; 
-		getLCS(str1, str2);
+		System.out.println(getLCS(str1, str2));
 	}
 }

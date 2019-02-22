@@ -37,7 +37,7 @@ public class LCS{
 			// start from edge and check if matching
 			if(str1.charAt(j-1)==str2.charAt(i-1)){
 				// select character and move diagonally
-				LCS+=String.valueOf(str1.charAt(j));
+				LCS=String.valueOf(str1.charAt(j-1))+LCS;
 				j--;
 				i--;
 			}
@@ -56,8 +56,14 @@ public class LCS{
 
 	public static void main(String[] args){
 		//driver program
-		String x="AGCAGT";
-		String y="GACA";
+		//String x="AGCAGT";
+		//String y="GACA";
+		String y = "thisisatest";
+		String x = "testing123testing";
+		//String y = "ABCDGH";
+		//String x = "AEDFHR";
+		//String y = "AGGTAB";
+		//String x = "GXTXAYB";
 		String z=getLCS(x,y);
 		System.out.println(z);
 	}
