@@ -104,6 +104,7 @@ public class EditDistance {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
+        boolean printAlignment = true;
         // accept filename through args
         if (args.length < 1) {
             return;
@@ -115,7 +116,6 @@ public class EditDistance {
         String y = scanner.nextLine();
         //y = "AACAGTTACC";
         //x = "TAAGGTCA";
-        boolean printAlignment = true;
         dynamicEditDistance(x.split(""), y.split(""), printAlignment);
 
     }
