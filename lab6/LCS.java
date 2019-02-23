@@ -24,12 +24,12 @@ public class LCS{
 			}
 		}
 		/* // print table
-		for(int i=1;i<ySize;i++){
-			for(int j=1;j<xSize;j++){
-				System.out.printf("%d ",table[i][j]);
-			}
-			System.out.println();
-		} */
+		   for(int i=1;i<ySize;i++){
+		   for(int j=1;j<xSize;j++){
+		   System.out.printf("%d ",table[i][j]);
+		   }
+		   System.out.println();
+		   } */
 		// backtrace
 		int i=ySize-1;
 		int j=xSize-1;
@@ -53,19 +53,20 @@ public class LCS{
 		}
 		return LCS;
 	}
-/* 
-	public static void main(String[] args){
-		//driver program
-		//String x="AGCAGT";
-		//String y="GACA";
-		//String y = "thisisatest";
-		//String x = "testing123testing";
-		//String y = "ABCDGH";
-		//String x = "AEDFHR";
-		//String y = "AGGTAB";
-		//String x = "GXTXAYB";
-		String z=getLCS(x,y);
-		System.out.printf("LCS is %s of length %d\n",z,z.length());
- 	}
- */
+/*
+	   public static void main(String[] args){
+//driver program
+//String x="AGCAGT";
+//String y="GACA";
+String y = "thisisatest";
+String x = "testing123testing";
+//String y = "ABCDGH";
+//String x = "AEDFHR";
+//String y = "AGGTAB";
+//String x = "GXTXAYB";
+String z=getLCS(x,y);
+System.out.printf("LCS is %s of length %d\n",z,z.length());
+	   }
+
+*/
 }
