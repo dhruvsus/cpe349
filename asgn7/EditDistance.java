@@ -50,14 +50,16 @@ public class EditDistance {
         System.out.printf("Edit distance = %d\n", editDistance);
         if (printAlignment) {
             // now backtrace
-            int maxLines = Math.max(xSize, ySize) - 1; // number of rows in alignment
+            // number of rows in alignment equals number of 
+            // characters in x + characters in y (RIP memory)
+            int maxLines = xSize + ySize -2; //-2 because xSize =x.length+1
             String[] backTrace = new String[maxLines];
             int backTraceIndex = maxLines - 1;
             int i = ySize - 1;
             int j = xSize - 1;
             // sanity check for index errors
-            System.out.printf("i = %d j = %d backTraceIndex = %d\n", i, j, backTraceIndex);
-            System.out.printf("dimensions of table: %d rows and %d columns\n", ySize, xSize);
+            //System.out.printf("i = %d j = %d backTraceIndex = %d\n", i, j, backTraceIndex);
+            //System.out.printf("dimensions of table: %d rows and %d columns\n", ySize, xSize);
             while (i + j > 0) {
                 String temp = "";
                 if (table[i][j] == table[i - 1][j - 1] && y[i - 1].equals(x[j - 1])) {
@@ -95,7 +97,7 @@ public class EditDistance {
                 }
             }
             // print out traceback
-            for (backTraceIndex = 0; backTraceIndex < maxLines; backTraceIndex++) {
+            for (backTraceIndex=backTraceIndex+1; backTraceIndex < maxLines; backTraceIndex++) {
                 System.out.println(backTrace[backTraceIndex]);
             }
         }
@@ -111,8 +113,8 @@ public class EditDistance {
         Scanner scanner = new Scanner(new File(filename));
         String x = scanner.nextLine();
         String y = scanner.nextLine();
-        // x = "AACAGTTACC";
-        // y = "TAAGGTCA";
+        //y = "AACAGTTACC";
+        //x = "TAAGGTCA";
         boolean printAlignment = true;
         dynamicEditDistance(x.split(""), y.split(""), printAlignment);
 
