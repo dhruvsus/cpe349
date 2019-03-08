@@ -25,8 +25,9 @@ public class Knapsack {
         // done scanning file
         // Brute Force
         BruteForce bf = new BruteForce(numItems, value, weight, capacity);
-        // bf.getMaxProfit();
-        GreedySearch gs = new GreedySearch(numItems, value, weight, capacity);
+        bf.getMaxProfit();
+        GreedySearch gs = new GreedySearch(numItems, identifier, value, weight, capacity);
+        gs.getMaxProfit();
         return;
     }
 }

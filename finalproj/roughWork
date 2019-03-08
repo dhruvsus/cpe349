@@ -1,0 +1,4 @@
+// Rough work
+greedy search: sort the identifiers and the value/weights according to value/weight ratio.
+then, pick up the highest value/weight and find it's index in the identifiers and 
+and reduces the profit and reduces weight.
