@@ -39,16 +39,33 @@ public class BruteForce {
 
     public void getMaxProfit() {
         ArrayList<String> binString = getGrayCode(n);
-        int numStrings = binString.size();
-        int maxProfit = 0;
-        String[] binStr = new String[n];
+        int maxProfit=0,maxWeight=0,tempProfit,tempWeight;
+        char[] binStr = new char[n];
         int[] binInt = new int[n];
-        String maxbinString;
+        int[] maxProfitItems=new int[n];
         for (String str : binString) {
             binStr = str.toCharArray();
-            for (int i = 0; i < binStr.length; i++) {
-                
+            for (int i = 0; i < n; i++) {
+                   binInt[i]=binStr[i]-'0';
+            }
+            tempProfit=0;
+            tempWeight=0;
+            for(int i=0;i<n;i++){
+                tempProfit+=binInt[i]*values[i];
+                tempWeight+=binInt[i]*weights[i];
+            }
+            if(tempWeight<=capacity && tempProfit>maxProfit){
+                maxProfit=tempProfit;
+                maxWeight=tempWeight;
+                maxProfitItems=binInt.clone();
             }
         }
+        System.out.printf("Using Brute force the best feasible solution found: Value %d, Weight %d\n",maxProfit,maxWeight);
+        for(int i=0;i<n;i++){
+            if(maxProfitItems[i]==1){
+                System.out.printf("%d ",i+1);
+            }
+        }
+        System.out.println();
     }
 }
