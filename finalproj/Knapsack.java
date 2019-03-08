@@ -21,11 +21,12 @@ public class Knapsack {
         }
         int capacity = scanner.nextInt();
         // sanity checks
-        System.out.printf("capacity = %d\nnumber of items = %d\n",capacity,numItems);
+        System.out.printf("capacity = %d\nnumber of items = %d\n", capacity, numItems);
         // done scanning file
         // Brute Force
-        BruteForce bf=new BruteForce(numItems,value,weight,capacity);
-        bf.getMaxProfit();
+        BruteForce bf = new BruteForce(numItems, value, weight, capacity);
+        // bf.getMaxProfit();
+        GreedySearch gs = new GreedySearch(numItems, value, weight, capacity);
         return;
     }
 }
