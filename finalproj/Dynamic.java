@@ -29,17 +29,15 @@ public class Dynamic {
         }
         // table completed
         // print for sanity check
-        /* for (int i = 0; i < n + 1; i++) {
+        for (int i = 0; i < n + 1; i++) {
             System.out.println();
             for (int j = 0; j < capacity + 1; j++) {
                 System.out.printf("%d\t", table[i][j]);
             }
-        } */
+        }
         // traceback
         int[] pickedUpItems = new int[n];
-        int maxValue=table[n][capacity], tempValue=maxValue, i,j;
-        while(tempValue!=0){
-            if(tempValue!=table[])
-        }
+        int maxValue = table[n][capacity], tempValue = maxValue, i = n, j = capacity;
+
     }
 }
