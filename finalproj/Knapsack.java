@@ -29,6 +29,7 @@ public class Knapsack {
         GreedySearch gs = new GreedySearch(numItems, identifier, value, weight, capacity);
         gs.getMaxProfit();
         Dynamic dp = new Dynamic(numItems, value, weight, capacity);
+        dp.getMaxProfit();
         return;
     }
 }
