@@ -35,9 +35,28 @@ public class Dynamic {
                 System.out.printf("%d\t", table[i][j]);
             }
         }
+        System.out.println();
         // traceback
         int[] pickedUpItems = new int[n];
         int maxValue = table[n][capacity], tempValue = maxValue, i = n, j = capacity;
+        while(tempValue!=0){
+            //System.out.printf("table[i-1][j] = %d, table[i-1][j-weights[i-1]=%d\n", table[i-1][j], table[i-1][j-weights[i-1]]);
+            if(tempValue==table[i-1][j]){
+                // not picked up
+                System.out.printf("item %d not picked up\n",i);
+                System.out.printf("capacity remaining = %d\n",j);
+                tempValue=table[i-1][j];
+                i--;
+            }
+            else{
+                // item picked up
+                System.out.printf("item %d picked up\n",i);
+                tempValue=table[i-1][j-weights[i]];
+                i--;
+                j-=weights[i-1];
+                System.out.printf("capacity remaining = %d\n",j);
 
+            }
+        }
     }
 }
