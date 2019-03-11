@@ -40,14 +40,12 @@ public class GreedySearch {
         int[] pickedUpItems = new int[n]; // to store picked up items, initialized to 0s by jvm
         
         // keep picking up the highest v/w item until we run out of capacity
-        while (tempCapacity < capacity) {
+        while (tempCapacity < capacity && !sortedIdentifers.isEmpty()) {
             removed = sortedIdentifers.remove(0);
             if (tempCapacity + weights[removed - 1] <= capacity) {
                 pickedUpItems[removed - 1] = 1;
                 tempValue += values[removed - 1];
                 tempCapacity += weights[removed - 1];
-            } else {
-                break;
             }
         }
         

@@ -5,7 +5,6 @@ public class BruteForce {
     int[] weights;
     int[] values;
     int capacity;
-    ArrayList<String> strings; // generated binary strings for arrangements
 
     public BruteForce(int n, int[] value, int[] weight, int capacity) {
         this.n = n;
