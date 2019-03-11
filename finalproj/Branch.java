@@ -52,26 +52,35 @@ public class Branch {
 		int maxValue = 0;
 		int[] pickedUpItems = new int[n];
 		String maxString = "";
+
+		// sorts identifiers based on v/w ratio
 		List<Integer> identifierList = Arrays.stream(identifiers) // IntStream
 				.boxed() // Stream<Integer>
 				.collect(Collectors.toList());
 		@SuppressWarnings("unchecked")
 		ArrayList<Integer> sortedIdentifers = new ArrayList(identifierList);
+		
 		Collections.sort(sortedIdentifers, (right, left) -> Double.compare(vWRatio[identifierList.indexOf((left))],
 				vWRatio[identifierList.indexOf((right))]));
+
 		Comparator<Node> comparator = new NodeComparator();
 		// create initial node
 		PriorityQueue<Node> pq = new PriorityQueue<Node>(n, comparator);
 		pq.add(new Node("", vWRatio[sortedIdentifers.get(0)] * capacity, 0, capacity));
 
 		while (!pq.isEmpty()) {
-			Node temp = pq.poll();
 
+			Node temp = pq.poll();
 			if (temp.ub <= maxValue) {
-				break; // found max value
+				// all the other paths have upperbounds less than already found solution
+				break;
 			}
-			if (temp.solution.length() == n - 1
-					|| temp.remainingCap < weights[sortedIdentifers.get(temp.solution.length()) - 1]) {
+
+			// checks if a node is the last possible parent in it's chain and finds it's
+			// value
+			// to increase maxValue if applicable
+			if (temp.solution.length() == n - 1) {
+				// last parent if it is now choosing to take the last item
 				if (temp.remainingCap >= weights[sortedIdentifers.get(temp.solution.length()) - 1]) {
 					int lastVal = values[sortedIdentifers.get(temp.solution.length()) - 1];
 					if (temp.value + lastVal > maxValue) {
@@ -85,18 +94,20 @@ public class Branch {
 					}
 				}
 			} else {
-
-				Node temp1; // take the next item
 				int lastVal = values[sortedIdentifers.get(temp.solution.length()) - 1];
 				int lastWeight = weights[sortedIdentifers.get(temp.solution.length()) - 1];
 
-				double temp1UB = getUB(temp.solution.length(), temp.value + lastVal, temp.remainingCap - lastWeight,
-						sortedIdentifers);
-				temp1 = new Node(temp.solution + "1", temp1UB, temp.value + lastVal, temp.remainingCap - lastWeight);
+				if (temp.remainingCap >= weights[sortedIdentifers.get(temp.solution.length()) - 1]) {
+					Node temp1; // take the next item
+					double temp1UB = getUB(temp.solution.length(), temp.value + lastVal, temp.remainingCap - lastWeight,
+							sortedIdentifers);
+					temp1 = new Node(temp.solution + "1", temp1UB, temp.value + lastVal,
+							temp.remainingCap - lastWeight);
+					pq.add(temp1);
+				}
 				Node temp2;
 				double temp2UB = getUB(temp.solution.length(), temp.value, temp.remainingCap, sortedIdentifers);
 				temp2 = new Node(temp.solution + "0", temp2UB, temp.value, temp.remainingCap);
-				pq.add(temp1);
 				pq.add(temp2);
 			}
 		}
@@ -127,7 +138,8 @@ public class Branch {
 		double upperBound = combinedVal;
 		int tempCapacity = remainingCap;
 		ListIterator<Integer> li = sortedIdentifers.listIterator(numSeen);
-		while (li.hasNext()) {
+		
+		while (li.hasNext() && tempCapacity>0) {
 			// try to pick up item
 			int picked = li.next();
 			if (weights[picked - 1] <= tempCapacity) {
