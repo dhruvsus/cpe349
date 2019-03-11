@@ -30,7 +30,7 @@ public class Knapsack {
         gs.getMaxProfit();
         Dynamic dp = new Dynamic(numItems, value, weight, capacity);
         dp.getMaxProfit();
-        Branch bb = new Branch(numItems, value, weight, capacity);
+        Branch bb = new Branch(numItems, identifier, value, weight, capacity);
         bb.getMaxProfit();
         return;
     }
