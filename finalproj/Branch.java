@@ -79,10 +79,10 @@ public class Branch {
 		// new node has upper bound = maximum v/w *capacity, and value =0
 		pq.add(new Node("", vWRatio[sortedIdentifers.get(0)] * capacity, 0, capacity));
 
-		// explore state space tree for 30 minutes
+		// explore state space tree for 60 minutes
 		// or until we explore the entire tree
 		// or until we prune all the remaining branches
-		while (elapsedTime < 30 * 60 * 1000 && !pq.isEmpty()) {
+		while (elapsedTime < 60 * 60 * 1000 && !pq.isEmpty()) {
 			Node temp = pq.poll();
 			if (temp.ub <= maxValue) {
 				// all the other paths have upperbounds less than already found solution
