@@ -19,23 +19,27 @@ public class GreedySearch {
         this.weights = weight;
         this.capacity = capacity;
         vWRatio = new double[n];
+        // populates v/w ratio for each item
         for (int i = 0; i < n; i++) {
             vWRatio[i] = (double) values[i] / weights[i];
         }
     }
 
     public void getMaxProfit() {
-        // sort identifiers
-        List<Integer> identifierList = Arrays.stream(identifiers) // IntStream
-                .boxed() // Stream<Integer>
+
+        // sort identifiers based on the the v/w of the items they refer to
+        List<Integer> identifierList = Arrays.stream(identifiers)
+                .boxed()
                 .collect(Collectors.toList());
         @SuppressWarnings("unchecked")
         ArrayList<Integer> sortedIdentifers = new ArrayList(identifierList);
         Collections.sort(sortedIdentifers, (right, left) -> Double.compare(vWRatio[identifierList.indexOf((left))],
                 vWRatio[identifierList.indexOf((right))]));
         int tempCapacity = 0, removed = -1, tempValue = 0;
-        int[] pickedUpItems = new int[n];
-        // sanity check
+
+        int[] pickedUpItems = new int[n]; // to store picked up items, initialized to 0s by jvm
+        
+        // keep picking up the highest v/w item until we run out of capacity
         while (tempCapacity < capacity) {
             removed = sortedIdentifers.remove(0);
             if (tempCapacity + weights[removed - 1] <= capacity) {
@@ -46,6 +50,7 @@ public class GreedySearch {
                 break;
             }
         }
+        
         System.out.printf("Greedy solution (not necessarily optimal): Value %d, Weight %d\n", tempValue, tempCapacity);
         for (int i = 0; i < n; i++) {
             if (pickedUpItems[i] == 1) {

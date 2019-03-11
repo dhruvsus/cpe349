@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class BruteForce {
-    int n; // number of items
+    int n;
     int[] weights;
     int[] values;
     int capacity;
@@ -14,6 +14,7 @@ public class BruteForce {
         this.capacity = capacity;
     }
 
+    // generates graycode strings for n items
     private ArrayList<String> getGrayCode(int n) {
         ArrayList<String> grayCode = new ArrayList<String>();
         ArrayList<String> temp = new ArrayList<String>();
@@ -43,6 +44,9 @@ public class BruteForce {
         char[] binStr = new char[n];
         int[] binInt = new int[n];
         int[] maxProfitItems = new int[n];
+        
+        // compute the value and weight for each graycode
+        // find the maximum value and weight possible
         for (String str : binString) {
             binStr = str.toCharArray();
             for (int i = 0; i < n; i++) {
@@ -54,6 +58,7 @@ public class BruteForce {
                 tempProfit += binInt[i] * values[i];
                 tempWeight += binInt[i] * weights[i];
             }
+            // discard those where weight>capacity and find max feasible val
             if (tempWeight <= capacity && tempProfit > maxProfit) {
                 maxProfit = tempProfit;
                 maxWeight = tempWeight;
@@ -62,6 +67,8 @@ public class BruteForce {
         }
         System.out.printf("Using Brute force the best feasible solution found: Value %d, Weight %d\n", maxProfit,
                 maxWeight);
+        // maxProfit is an array [0,1,1,0,0,1,1,1,0......] where 1 represents
+        // an item that was picked up
         for (int i = 0; i < n; i++) {
             if (maxProfitItems[i] == 1) {
                 System.out.printf("%d ", i + 1);
