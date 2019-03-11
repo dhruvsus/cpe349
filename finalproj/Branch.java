@@ -59,15 +59,16 @@ public class Branch {
 				.collect(Collectors.toList());
 		@SuppressWarnings("unchecked")
 		ArrayList<Integer> sortedIdentifers = new ArrayList(identifierList);
-		
+
 		Collections.sort(sortedIdentifers, (right, left) -> Double.compare(vWRatio[identifierList.indexOf((left))],
 				vWRatio[identifierList.indexOf((right))]));
 
 		Comparator<Node> comparator = new NodeComparator();
+
 		// create initial node
 		PriorityQueue<Node> pq = new PriorityQueue<Node>(n, comparator);
 		pq.add(new Node("", vWRatio[sortedIdentifers.get(0)] * capacity, 0, capacity));
-
+		System.out.printf("capacity = %d, max vWRatio = %f\n", capacity, vWRatio[sortedIdentifers.get(0)]);
 		while (!pq.isEmpty()) {
 
 			Node temp = pq.poll();
@@ -99,14 +100,14 @@ public class Branch {
 
 				if (temp.remainingCap >= weights[sortedIdentifers.get(temp.solution.length()) - 1]) {
 					Node temp1; // take the next item
-					double temp1UB = getUB(temp.solution.length(), temp.value + lastVal, temp.remainingCap - lastWeight,
+					double temp1UB = getUB(temp.solution.length()+1, temp.value + lastVal, temp.remainingCap - lastWeight,
 							sortedIdentifers);
 					temp1 = new Node(temp.solution + "1", temp1UB, temp.value + lastVal,
 							temp.remainingCap - lastWeight);
 					pq.add(temp1);
 				}
 				Node temp2;
-				double temp2UB = getUB(temp.solution.length(), temp.value, temp.remainingCap, sortedIdentifers);
+				double temp2UB = getUB(temp.solution.length()+1, temp.value, temp.remainingCap, sortedIdentifers);
 				temp2 = new Node(temp.solution + "0", temp2UB, temp.value, temp.remainingCap);
 				pq.add(temp2);
 			}
@@ -138,8 +139,8 @@ public class Branch {
 		double upperBound = combinedVal;
 		int tempCapacity = remainingCap;
 		ListIterator<Integer> li = sortedIdentifers.listIterator(numSeen);
-		
-		while (li.hasNext() && tempCapacity>0) {
+
+		while (li.hasNext() && tempCapacity > 0) {
 			// try to pick up item
 			int picked = li.next();
 			if (weights[picked - 1] <= tempCapacity) {
