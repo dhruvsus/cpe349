@@ -100,14 +100,14 @@ public class Branch {
 
 				if (temp.remainingCap >= weights[sortedIdentifers.get(temp.solution.length()) - 1]) {
 					Node temp1; // take the next item
-					double temp1UB = getUB(temp.solution.length()+1, temp.value + lastVal, temp.remainingCap - lastWeight,
-							sortedIdentifers);
+					double temp1UB = getUB(temp.solution.length() + 1, temp.value + lastVal,
+							temp.remainingCap - lastWeight, sortedIdentifers);
 					temp1 = new Node(temp.solution + "1", temp1UB, temp.value + lastVal,
 							temp.remainingCap - lastWeight);
 					pq.add(temp1);
 				}
 				Node temp2;
-				double temp2UB = getUB(temp.solution.length()+1, temp.value, temp.remainingCap, sortedIdentifers);
+				double temp2UB = getUB(temp.solution.length() + 1, temp.value, temp.remainingCap, sortedIdentifers);
 				temp2 = new Node(temp.solution + "0", temp2UB, temp.value, temp.remainingCap);
 				pq.add(temp2);
 			}
