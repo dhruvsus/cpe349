@@ -45,12 +45,6 @@ public class GreedySearch {
             } else {
                 break;
             }
-            /*
-             * System.out.printf(
-             * "picking up item %d with value %d, weight %d, and v/w ratio %f. Total weight = %d, and Total value = %d\n"
-             * , removed, values[removed - 1], weights[removed - 1], vWRatio[removed - 1],
-             * tempCapacity, tempValue);
-             */
         }
         System.out.printf("Greedy solution (not necessarily optimal): Value %d, Weight %d\n", tempValue, tempCapacity);
         for (int i = 0; i < n; i++) {
