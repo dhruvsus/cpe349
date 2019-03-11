@@ -1,6 +1,6 @@
 import java.util.Comparator;
+import java.util.Date;
 import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
@@ -14,9 +14,15 @@ public class Branch {
 	int[] weights;
 	int[] values;
 	int capacity;
+	int maxWeight;
+	int maxValue;
+	String maxString;
 	double[] vWRatio;
 
 	public Branch(int n, int[] identifier, int[] value, int[] weight, int capacity) {
+		this.maxString = "";
+		this.maxWeight = 0;
+		this.maxValue = 0;
 		this.n = n;
 		this.identifiers = identifier;
 		this.values = value;
@@ -49,10 +55,9 @@ public class Branch {
 	}
 
 	public void getMaxProfit() {
-		int maxValue = 0;
+		long startTime = System.currentTimeMillis();
+		long elapsedTime = 0L;
 		int[] pickedUpItems = new int[n];
-		String maxString = "";
-
 		// sorts identifiers based on v/w ratio
 		List<Integer> identifierList = Arrays.stream(identifiers) // IntStream
 				.boxed() // Stream<Integer>
@@ -68,11 +73,12 @@ public class Branch {
 		// create initial node
 		PriorityQueue<Node> pq = new PriorityQueue<Node>(n, comparator);
 		pq.add(new Node("", vWRatio[sortedIdentifers.get(0)] * capacity, 0, capacity));
-		System.out.printf("capacity = %d, max vWRatio = %f\n", capacity, vWRatio[sortedIdentifers.get(0)]);
-		while (!pq.isEmpty()) {
+		// System.out.printf("capacity = %d, max vWRatio = %f\n", capacity,
+		// vWRatio[sortedIdentifers.get(0)]);
 
+		while (elapsedTime < 30 * 60 * 1000 && !pq.isEmpty()) {
 			Node temp = pq.poll();
-			if (temp.ub <= maxValue) {
+			if (temp.ub < maxValue) {
 				// all the other paths have upperbounds less than already found solution
 				break;
 			}
@@ -111,8 +117,8 @@ public class Branch {
 				temp2 = new Node(temp.solution + "0", temp2UB, temp.value, temp.remainingCap);
 				pq.add(temp2);
 			}
+			elapsedTime = (new Date()).getTime() - startTime;
 		}
-		int maxWeight = 0;
 		for (int i = 0; i < maxString.length(); i++) {
 			if (maxString.charAt(i) == '1') {
 				maxWeight += weights[sortedIdentifers.get(i) - 1];

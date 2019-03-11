@@ -1,0 +1,7 @@
+Greedy solution (not necessarily optimal): Value 1096, Weight 240
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 31 32 33 34 35 36 37 38 39 40 41 42 43 44 
+Dynamic Programming solution: Value 1123, Weight 250
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 31 32 33 34 35 36 37 38 39 40 41 43 44 45 
+capacity = 250, max vWRatio = 12.000000
+Using Branch and Bound the best feasible solution found: Value 1123, Weight 250
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 31 32 33 34 35 36 37 38 39 40 41 43 44 45 
