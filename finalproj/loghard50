@@ -1,0 +1,13 @@
+Greedy solution (not necessarily optimal): Value 16538, Weight 10038
+5 6 7 8 9 10 11 12 17 18 19 20 21 25 26 27 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 
+Greedy Search on hard50.txt: 68 milliseconds
+
+Dynamic Programming solution: Value 16610, Weight 10110
+5 6 7 8 9 10 11 12 17 18 19 20 21 25 26 27 28 31 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 
+Dynamic Programming on hard50.txt: 24 milliseconds
+
+Using Branch and Bound the best feasible solution found: Value 16610, Weight 10110
+5 6 7 8 9 10 11 12 17 18 19 20 21 25 26 27 28 31 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 
+Branch and Bound on hard50.txt: 7 milliseconds
+
+

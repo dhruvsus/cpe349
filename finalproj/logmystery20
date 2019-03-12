@@ -1,0 +1,4 @@
+Greedy solution (not necessarily optimal): Value 700, Weight 560000060
+1 2 3 4 5 6 7 8 9 16 17 18 19 20 
+Greedy Search on mystery20.txt: 87 milliseconds
+

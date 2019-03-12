@@ -1,0 +1,13 @@
+Greedy solution (not necessarily optimal): Value 1115, Weight 247
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 31 32 33 34 35 36 37 38 39 40 41 42 43 44 46 
+Greedy Search on easy50.txt: 73 milliseconds
+
+Dynamic Programming solution: Value 1123, Weight 250
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 31 32 33 34 35 36 37 38 39 40 41 43 44 45 
+Dynamic Programming on easy50.txt: 6 milliseconds
+
+Using Branch and Bound the best feasible solution found: Value 1123, Weight 250
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 31 32 33 34 35 36 37 38 39 40 41 43 44 45 
+Branch and Bound on easy50.txt: 7 milliseconds
+
+

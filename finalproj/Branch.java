@@ -34,6 +34,7 @@ public class Branch {
 			vWRatio[i] = (double) values[i] / weights[i];
 		}
 	}
+
 	// A node represents a node in the state space tree
 	class Node {
 		String solution;
@@ -62,11 +63,9 @@ public class Branch {
 		long startTime = System.currentTimeMillis();
 		long elapsedTime = 0L;
 		int[] pickedUpItems = new int[n];
-		
+
 		// sort identifiers based on the the v/w of the items they refer to
-		List<Integer> identifierList = Arrays.stream(identifiers)
-				.boxed()
-				.collect(Collectors.toList());
+		List<Integer> identifierList = Arrays.stream(identifiers).boxed().collect(Collectors.toList());
 		@SuppressWarnings("unchecked")
 		ArrayList<Integer> sortedIdentifers = new ArrayList(identifierList);
 		Collections.sort(sortedIdentifers, (right, left) -> Double.compare(vWRatio[identifierList.indexOf((left))],
@@ -89,7 +88,8 @@ public class Branch {
 				break;
 			}
 
-			// checks if a node is the last possible parent in it's branch and finds it's value
+			// checks if a node is the last possible parent in it's branch and finds it's
+			// value
 			// increase maxValue if applicable
 			if (temp.solution.length() == n - 1) {
 				// last parent if it can take the last item
@@ -99,7 +99,7 @@ public class Branch {
 						maxValue = temp.value + lastVal;
 						maxString = temp.solution + "1";
 					}
-				} 
+				}
 				// last parent if it can't take the last item
 				else {
 					if (temp.value > maxValue) {
@@ -107,13 +107,13 @@ public class Branch {
 						maxString = temp.solution + "0";
 					}
 				}
-			} 
-			else {
+			} else {
 				// value and weight of next best v/w item
 				int lastVal = values[sortedIdentifers.get(temp.solution.length()) - 1];
 				int lastWeight = weights[sortedIdentifers.get(temp.solution.length()) - 1];
 
-				// create and enque left and right node, for the next best v/w item being taken or not
+				// create and enque left and right node, for the next best v/w item being taken
+				// or not
 				// create right node only if the next best item can be picked up
 				if (temp.remainingCap >= weights[sortedIdentifers.get(temp.solution.length()) - 1]) {
 					Node right; // take the next item
@@ -158,7 +158,8 @@ public class Branch {
 	// and picks up a fraction of them if it can't pick up the entire item
 
 	public double getUB(int numSeen, int combinedVal, int remainingCap, ArrayList<Integer> sortedIdentifers) {
-		// upper bound starts at parent value for left and parent value + next item value for right
+		// upper bound starts at parent value for left and parent value + next item
+		// value for right
 		double upperBound = combinedVal;
 		int tempCapacity = remainingCap;
 		ListIterator<Integer> li = sortedIdentifers.listIterator(numSeen);
@@ -170,7 +171,7 @@ public class Branch {
 				upperBound += values[picked - 1];
 				tempCapacity -= weights[picked - 1];
 			}
-			// pick up fractional item 
+			// pick up fractional item
 			else {
 				double fractionalUB;
 				fractionalUB = vWRatio[picked - 1] * (tempCapacity);

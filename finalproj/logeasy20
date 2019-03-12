@@ -1,0 +1,17 @@
+Using Brute force the best feasible solution found: Value 726, Weight 519
+1 2 3 5 10 12 15 16 18 19 20 
+Brute force on easy20.txt: 852 milliseconds
+
+Greedy solution (not necessarily optimal): Value 692, Weight 476
+1 2 5 7 9 10 12 15 16 18 19 20 
+Greedy Search on easy20.txt: 76 milliseconds
+
+Dynamic Programming solution: Value 726, Weight 519
+1 2 3 5 10 12 15 16 18 19 20 
+Dynamic Programming on easy20.txt: 4 milliseconds
+
+Using Branch and Bound the best feasible solution found: Value 726, Weight 519
+1 2 3 5 10 12 15 16 18 19 20 
+Branch and Bound on easy20.txt: 4 milliseconds
+
+
