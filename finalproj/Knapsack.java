@@ -24,7 +24,7 @@ public class Knapsack {
         // start timer
 		long startTime = System.currentTimeMillis();
 		long elapsedTime = 0L;
-/*	
+/*
 	// Brute Force
         BruteForce bf = new BruteForce(numItems, value, weight, capacity);
         bf.getMaxProfit();
