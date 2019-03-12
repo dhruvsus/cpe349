@@ -24,14 +24,14 @@ public class Knapsack {
         // start timer
 		long startTime = System.currentTimeMillis();
 		long elapsedTime = 0L;
-        
-        // Brute Force
-        /* BruteForce bf = new BruteForce(numItems, value, weight, capacity);
+	/*
+	// Brute Force
+        BruteForce bf = new BruteForce(numItems, value, weight, capacity);
         bf.getMaxProfit();
         elapsedTime = (new Date()).getTime() - startTime;
         System.out.printf("Brute force on %s: %d milliseconds\n",filename,elapsedTime);
-        System.out.println(); */
-
+        System.out.println();
+*/
         // Greedy Search with v/w sorting
         startTime=System.currentTimeMillis();
         GreedySearch gs = new GreedySearch(numItems, identifier, value, weight, capacity);

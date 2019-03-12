@@ -1,0 +1,287 @@
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import java.util.Queue;
+
+public class Branch {
+    int n; // number of items
+    int[] weights;
+    int[] values;
+    int capacity;
+
+    public Branch(int n, int[] value, int[] weight, int capacity) {
+        this.n = n;
+        this.values = value;
+        this.weights = weight;
+        this.capacity = capacity;
+    }
+
+    class Node {
+        String solution;
+        int ub;
+        int value;
+
+        public Node() {
+            // solution: string 01010 where length=levels in the tree and 0: not taken
+            solution = "";
+            ub = 0;
+            value = 0;
+        }
+    }
+
+    class NodeComparator implements Comparator<Node> {
+        public int compare(Node a, Node b) {
+            return b.ub - a.ub; // to fool the priority queue into giving max ub on head
+        }
+    }
+
+    public void getMaxProfit() {
+        Comparator<Node> comparator = new NodeComparator();
+        // create initial node
+        PriorityQueue<Node> pq = new PriorityQueue<Node>(1, comparator);
+        Node temp;
+        pq.add(new Node());
+        while (!pq.isEmpty()) {
+            temp = pq.poll();
+            System.out.printf("Node string %s, ub %d value %d\n", temp.solution, temp.ub, temp.value);
+        }
+    }
+}import java.util.ArrayList;
+
+public class BruteForce {
+    int n; // number of items
+    int[] weights;
+    int[] values;
+    int capacity;
+    ArrayList<String> strings; // generated binary strings for arrangements
+
+    public BruteForce(int n, int[] value, int[] weight, int capacity) {
+        this.n = n;
+        this.values = value;
+        this.weights = weight;
+        this.capacity = capacity;
+    }
+
+    private ArrayList<String> getGrayCode(int n) {
+        ArrayList<String> grayCode = new ArrayList<String>();
+        ArrayList<String> temp = new ArrayList<String>();
+        if (n > 1) {
+            // recursive
+            temp = getGrayCode(--n);
+            // prepend a 0
+            for (int i = 0; i < temp.size(); i++) {
+                grayCode.add("0" + temp.get(i));
+            }
+            // prepend 1
+            for (int i = temp.size(); i-- > 0;) {
+                grayCode.add("1" + temp.get(i));
+            }
+            return grayCode;
+        } else {
+            // graycode for n=1 is just {0,1}, it's the base case
+            grayCode.add("0");
+            grayCode.add("1");
+            return grayCode;
+        }
+    }
+
+    public void getMaxProfit() {
+        ArrayList<String> binString = getGrayCode(n);
+        int maxProfit = 0, maxWeight = 0, tempProfit, tempWeight;
+        char[] binStr = new char[n];
+        int[] binInt = new int[n];
+        int[] maxProfitItems = new int[n];
+        for (String str : binString) {
+            binStr = str.toCharArray();
+            for (int i = 0; i < n; i++) {
+                binInt[i] = binStr[i] - '0';
+            }
+            tempProfit = 0;
+            tempWeight = 0;
+            for (int i = 0; i < n; i++) {
+                tempProfit += binInt[i] * values[i];
+                tempWeight += binInt[i] * weights[i];
+            }
+            if (tempWeight <= capacity && tempProfit > maxProfit) {
+                maxProfit = tempProfit;
+                maxWeight = tempWeight;
+                maxProfitItems = binInt.clone();
+            }
+        }
+        System.out.printf("Using Brute force the best feasible solution found: Value %d, Weight %d\n", maxProfit,
+                maxWeight);
+        for (int i = 0; i < n; i++) {
+            if (maxProfitItems[i] == 1) {
+                System.out.printf("%d ", i + 1);
+            }
+        }
+        System.out.println();
+    }
+}public class Dynamic {
+    int n; // number of items
+    int[] weights;
+    int[] values;
+    int capacity;
+
+    public Dynamic(int n, int[] value, int[] weight, int capacity) {
+        this.n = n;
+        this.values = value;
+        this.weights = weight;
+        this.capacity = capacity;
+    }
+
+    public void getMaxProfit() {
+        // variables
+        int[][] table = new int[n + 1][capacity + 1];
+        // fill up table
+        for (int i = 1; i < n + 1; i++) {
+            for (int j = 1; j < capacity + 1; j++) {
+                // check if the item fits the backpack
+                if (weights[i - 1] > j) {
+                    // item doesn't fit
+                    table[i][j] = table[i - 1][j];
+                } else {
+                    // max of item picked up or not
+                    table[i][j] = Math.max(table[i - 1][j], values[i - 1] + table[i - 1][j - weights[i - 1]]);
+                }
+            }
+        }
+        // table completed
+        // print for sanity check
+        /*
+         * for (int i = 0; i < n + 1; i++) { System.out.println(); for (int j = 0; j <
+         * capacity + 1; j++) { System.out.printf("%d\t", table[i][j]); } }
+         */
+
+        // traceback
+        int[] pickedUpItems = new int[n];
+        int maxValue = table[n][capacity], tempValue = maxValue, i = n, j = capacity, maxCapacity = 0;
+
+        while (tempValue != 0) {
+            // System.out.printf("table[i-1][j] = %d, table[i-1][j-weights[i-1]=%d\n",
+            // table[i-1][j], table[i-1][j-weights[i-1]]);
+            if (tempValue == table[i - 1][j]) {
+                // not picked up
+                // System.out.printf("item %d not picked up\n",i);
+                // System.out.printf("capacity remaining = %d\n",j);
+                tempValue = table[i - 1][j];
+                i--;
+                // System.out.printf("now at i = %d, j = %d, and tablevalue =
+                // %d\n",i,j,table[i][j]);
+            } else {
+                // item picked up
+                // System.out.printf("item %d picked up\n",i);
+                pickedUpItems[i - 1] = 1;
+                maxCapacity += weights[i - 1];
+                tempValue = table[i - 1][j - weights[i - 1]];
+                j -= weights[i - 1];
+                i--;
+                // System.out.printf("capacity remaining = %d\n",j);
+            }
+        }
+        System.out.printf("Dynamic Programming solution: Value %d, Weight %d\n", maxValue, maxCapacity);
+        for (i = 0; i < n; i++) {
+            if (pickedUpItems[i] == 1) {
+                System.out.printf("%d ", i + 1);
+            }
+        }
+        System.out.println();
+    }
+}import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class GreedySearch {
+    int n; // number of items
+    int[] identifiers;
+    int[] weights;
+    int[] values;
+    double[] vWRatio;
+    int capacity;
+
+    public GreedySearch(int n, int[] identifier, int[] value, int[] weight, int capacity) {
+        this.n = n;
+        this.identifiers = identifier;
+        this.values = value;
+        this.weights = weight;
+        this.capacity = capacity;
+        vWRatio = new double[n];
+        for (int i = 0; i < n; i++) {
+            vWRatio[i] = (double) values[i] / weights[i];
+        }
+    }
+
+    public void getMaxProfit() {
+        // sort identifiers
+        List<Integer> identifierList = Arrays.stream(identifiers) // IntStream
+                .boxed() // Stream<Integer>
+                .collect(Collectors.toList());
+        @SuppressWarnings("unchecked")
+        ArrayList<Integer> sortedIdentifers = new ArrayList(identifierList);
+        Collections.sort(sortedIdentifers, (right, left) -> Double.compare(vWRatio[identifierList.indexOf((left))],
+                vWRatio[identifierList.indexOf((right))]));
+        int tempCapacity = 0, removed = -1, tempValue = 0;
+        int[] pickedUpItems = new int[n];
+        // sanity check
+        while (tempCapacity < capacity) {
+            removed = sortedIdentifers.remove(0);
+            if (tempCapacity + weights[removed - 1] <= capacity) {
+                pickedUpItems[removed - 1] = 1;
+                tempValue += values[removed - 1];
+                tempCapacity += weights[removed - 1];
+            } else {
+                break;
+            }
+            /*
+             * System.out.printf(
+             * "picking up item %d with value %d, weight %d, and v/w ratio %f. Total weight = %d, and Total value = %d\n"
+             * , removed, values[removed - 1], weights[removed - 1], vWRatio[removed - 1],
+             * tempCapacity, tempValue);
+             */
+        }
+        System.out.printf("Greedy solution (not necessarily optimal): Value %d, Weight %d\n", tempValue, tempCapacity);
+        for (int i = 0; i < n; i++) {
+            if (pickedUpItems[i] == 1) {
+                System.out.printf("%d ", i + 1);
+            }
+        }
+        System.out.println();
+    }
+}import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
+
+public class Knapsack {
+    public static void main(String[] args) throws FileNotFoundException {
+        if (args.length < 1) {
+            return;
+        }
+        String filename = args[0];
+        // scanner to scan in file
+        Scanner scanner = new Scanner(new File(filename));
+        int numItems = scanner.nextInt();
+        int[] identifier = new int[numItems]; // not really needed
+        int[] value = new int[numItems];
+        int[] weight = new int[numItems];
+        for (int i = 0; i < numItems; i++) {
+            identifier[i] = scanner.nextInt();
+            value[i] = scanner.nextInt();
+            weight[i] = scanner.nextInt();
+        }
+        int capacity = scanner.nextInt();
+        // sanity checks
+        System.out.printf("capacity = %d\nnumber of items = %d\n", capacity, numItems);
+        // done scanning file
+        // Brute Force
+        BruteForce bf = new BruteForce(numItems, value, weight, capacity);
+        // bf.getMaxProfit();
+        GreedySearch gs = new GreedySearch(numItems, identifier, value, weight, capacity);
+        gs.getMaxProfit();
+        Dynamic dp = new Dynamic(numItems, value, weight, capacity);
+        dp.getMaxProfit();
+        Branch bb = new Branch(numItems, value, weight, capacity);
+        bb.getMaxProfit();
+        return;
+    }
+}
